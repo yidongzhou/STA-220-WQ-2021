@@ -1,0 +1,61 @@
+---
+title: "STA 220 - Data and Web Technologies for Data Analysis - Lab 1"
+params:
+   term: "Winter 2021"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE)
+```
+
+We could split a matrix A into a product A=QR where Q is a matrix with unit norm orthogonal vectors and R is an upper triangular matrix. Consider the following matrix A (see Lecture 2 c).) and compute the QR decomposition:
+
+
+```{r, error=TRUE}
+x <- c("bob" = 39, "carol" = 31, "ted" = 31, "alice" = 32)
+X <- cbind(1, x)
+colnames(X) <- c("Intercept", "Age")
+X <- cbind(X, Sex = c(0,1,0,1))
+X
+A = solve(t(X) %*% X)
+A
+```
+
+## Hint
+
+You may use
+
+`qr.X`, `qr.Q`, `qr.R` 
+
+# Solution
+
+The QR decomposition:
+
+```{r, error=TRUE}
+QR <- qr(A)
+```
+Rank of the matrix:
+
+```{r, error=TRUE}
+QR$rank
+```
+The Q factor:
+
+```{r, error=TRUE}
+Q <- qr.Q(QR) 
+Q
+```
+
+The R factor:
+
+```{r, error=TRUE}
+R <- qr.R(QR)
+R
+```
+
+Reconstructing the matrix A from its decomposition as follows:
+
+```{r, error=TRUE}
+qr.X(QR)
+```
+
