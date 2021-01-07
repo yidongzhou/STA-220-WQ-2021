@@ -1,0 +1,4 @@
+- QR decomposition: [Wikipedia page](https://en.wikipedia.org/wiki/QR_decomposition)
+- `solve(a, b, ...)`: solve a system of equations or compute the inverse of `a` if `b` is missing
+- `qr(x, ...)`: the QR decomposition of a matrix `x`
+- `qr.X`/`qr.Q`/`qr.R`: reconstruct the Q, R, or X matrices from a QR object (returned by `solve` function)
