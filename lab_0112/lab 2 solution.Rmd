@@ -1,0 +1,48 @@
+---
+title: "STA 220 - Data and Web Technologies for Data Analysis - Lab 2"
+params:
+  term: Winter 2021
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE)
+```
+
+Draw a random sample of 5 letters without replacement from the first five letters of the English alphabet:
+
+```{r }
+sample(LETTERS[1:5], 5, replace = FALSE)
+```
+
+> What is the probability that the sample contains at least one of all
+> five letters, i.e., at least one "A", at least one "B", at least one
+> "C", at least one "D", AND at least one "E"?
+
+
+Write a function to *estimate* the probability by performing many independent replications of the experiment and counting how often the event in question occurs.
+
+
+# Solution
+
+
+The probability is 1.
+
+```{r}
+my_simulator.s <- function(n_reps, n_ltrs, n_sample) {
+  
+  if(n_ltrs<n_sample){print("you can't take a sample without replacement larger than the population")}
+                     else{n_successes <- 0L   # Initialize counter
+                         for (i in 1:n_reps) {
+                         x <- sample(LETTERS[1:n_ltrs], n_sample, replace = FALSE)
+                        is_success <- all(LETTERS[1:n_ltrs] %in% x)
+                        n_successes <- n_successes + is_success
+                        }
+                        n_successes / n_reps}
+                                                     }
+```
+
+
+```{r }
+my_simulator.s(10000, 5, 5)
+```
+
