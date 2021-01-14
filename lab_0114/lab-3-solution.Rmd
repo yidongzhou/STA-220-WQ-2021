@@ -1,0 +1,93 @@
+---
+title: "STA 220 - Data and Web Technologies for Data Analysis - Lab 3"
+params:
+   term: "Winter 2021"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE)
+```
+
+
+Consider  the following set of probabilities 0.5, 0.6, 0.7, 0.8 and 0.9 for the example in Lecture 3.
+
+>- What should we expect to observe?
+
+>- What happen if we consider 100 heads in a row?
+
+
+## Hint
+
+
+Use the functions of Lecture 3:
+
+
+
+```{r }
+simtosses <- function(nsim, ntoss, probH = 1/2) {
+    matrix(sample(0:1, ntoss * nsim, replace = TRUE,
+                  prob = c(1 - probH, probH)),
+           ncol = nsim)
+}
+```
+
+```{r fmaxrl}
+fmaxrl <- function(x, outcome = NULL) {
+  xr <- rle(x)
+  if (!is.null(outcome)) {
+    is_outcome <- (xr$values == outcome)
+    xr$lengths <- xr$lengths[is_outcome]
+  }
+  if (length(xr$lengths) == 0L) 0 else max(xr$lengths)
+}
+```
+
+```{r }
+nsim <- 10000
+ntoss <- 100
+pH <- c(0.5, 0.6, 0.7, 0.8, 0.9)
+res <- matrix(nrow = nsim, ncol = length(pH))
+colnames(res) <- pH
+for (i in seq_along(pH)) {
+    res[, i] <- apply(simtosses(nsim, ntoss, probH = pH[i]), 2, fmaxrl)
+}
+muhat <- apply(res, 2, mean)
+sigmahat <- apply(res, 2, sd)
+se.muhat <- sigmahat / sqrt(nsim)
+round(rbind(muhat, se.muhat), 3)
+```
+
+
+
+
+# We can use the function apply
+
+```{r }
+apply(res, 2, quantile, probs = c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1))
+```
+
+
+```{r biasedcoin.plot, eval = FALSE}
+opar <- par(mar = c(5.1, 4.1, 1.1, 1.1))
+boxplot(res, horizontal = TRUE,
+        xlab = "Maximum Run Length", ylab = "Probability of Heads")
+par(opar)
+```
+---
+
+```{r, ref.label="biasedcoin.plot", echo=FALSE, fig.align = "center", fig.width = 10, fig.height = 5, fig.cap = paste0("Maximum run lengths in ", format(nsim, big.mark = ","), " simulations of ", ntoss, " tosses of a biased coin.")}
+```
+
+# If we consider 100 heads in a row
+
+With the probability of heads set to 0.9, the probability of getting 100 heads in 100 (independent) tosses of the (biased) coin is pretty small.
+
+```{r}
+0.9^100
+```
+
+However, if we repeat the experiment 10,000 times, the probability that we get 100 heads at least once is not so small.
+
+```{r}
+1 - (1 - 0.9^100)^10000
+```
