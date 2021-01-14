@@ -1,7 +1,10 @@
 ---
 title: "STA 220 - Data and Web Technologies for Data Analysis - Lab 3"
 params:
-   term: "Winter 2021"
+  term: Winter 2021
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -29,32 +32,34 @@ simtosses <- function(nsim, ntoss, probH = 1/2) {
                   prob = c(1 - probH, probH)),
            ncol = nsim)
 }
+# ntoss by nsim matrix
 ```
 
 ```{r fmaxrl}
 fmaxrl <- function(x, outcome = NULL) {
-  xr <- rle(x)
-  if (!is.null(outcome)) {
+  xr <- rle(x)# run length encoding
+  if (!is.null(outcome)) {# if outcome is not NULL
     is_outcome <- (xr$values == outcome)
     xr$lengths <- xr$lengths[is_outcome]
   }
   if (length(xr$lengths) == 0L) 0 else max(xr$lengths)
+  # if length is not 0, return the maximum number of consecutive heads or tails
 }
 ```
 
 ```{r }
 nsim <- 10000
 ntoss <- 100
-pH <- c(0.5, 0.6, 0.7, 0.8, 0.9)
+pH <- c(0.5, 0.6, 0.7, 0.8, 0.9)# probabilities of head
 res <- matrix(nrow = nsim, ncol = length(pH))
 colnames(res) <- pH
 for (i in seq_along(pH)) {
     res[, i] <- apply(simtosses(nsim, ntoss, probH = pH[i]), 2, fmaxrl)
 }
-muhat <- apply(res, 2, mean)
-sigmahat <- apply(res, 2, sd)
+muhat <- apply(res, 2, mean)# what should we expect to observe
+sigmahat <- apply(res, 2, sd)# uncertainty
 se.muhat <- sigmahat / sqrt(nsim)
-round(rbind(muhat, se.muhat), 3)
+round(rbind(muhat, se.muhat), 3)# rounds the values in its first argument to the specified number of decimal places (default 0)
 ```
 
 
@@ -64,14 +69,22 @@ round(rbind(muhat, se.muhat), 3)
 
 ```{r }
 apply(res, 2, quantile, probs = c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1))
+# more succinct and nice output
+# if using loop, we have
+result <- matrix(nrow = 7, ncol = 5)
+for(i in 1:ncol(res)){
+  result[, i] <- quantile(res[, i], probs = c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1))
+}
+result
 ```
 
 
 ```{r biasedcoin.plot, eval = FALSE}
-opar <- par(mar = c(5.1, 4.1, 1.1, 1.1))
+opar <- par(mar = c(5.1, 4.1, 1.1, 1.1))# set graph margins using par()
 boxplot(res, horizontal = TRUE,
         xlab = "Maximum Run Length", ylab = "Probability of Heads")
-par(opar)
+par(opar)# reset the graph margins back to the default values
+# type par() in console to print all the default graphical parameters
 ```
 ---
 
