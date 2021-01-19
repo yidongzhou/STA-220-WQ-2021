@@ -1,0 +1,70 @@
+---
+title: "STA 220 - Data and Web Technologies for Data Analysis - Lab 4"
+params:
+  term: Winter 2021
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE)
+```
+
+
+Consider  the data set Titanic  as follows:
+
+
+     Description:
+
+This data set provides information on the fate of passengers on the fatal maiden voyage of the ocean liner ‘Titanic’, summarized according to economic status (class), sex, age and survival.
+
+
+     Format:
+
+A 4-dimensional array resulting from cross-tabulating 2201 observations on 4 variables. The variables and their levels are as follows:
+
+
+- Class with 4 levels: 1st, 2nd, 3rd, Crew.
+
+- Sex with 2 levels:  Male, Female.
+
+- Age with 2 levels: Child, Adult.
+
+- Survived with 2 levels: No, Yes.
+
+
+For the data set Titanic  Compute  measures of frequency for the variables class and  survived.
+
+
+
+## Hint
+
+Use `apply(X, MARGIN, FUN, ...)`.
+
+
+# Solution
+
+The data set
+
+```{r }
+dim(Titanic)
+dimnames(Titanic)
+```
+
+
+The variable Survived
+
+```{r }
+sum(Titanic)
+apply(Titanic, 4, sum)
+round(100 * apply(Titanic, "Survived", sum) / sum(Titanic), 1)
+apply(Titanic, 1, sum)
+```
+
+
+The variables Survived and Class
+
+
+```{r }
+apply(Titanic, c("Survived", "Class"), sum)
+round(100 * apply(Titanic, c(4, 1), sum) / sum(Titanic), 1)
+```
+
