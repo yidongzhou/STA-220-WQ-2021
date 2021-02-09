@@ -1,0 +1,7 @@
+- Introduction to string manipulation in R (including basic concepts for regular expressions): https://r4ds.had.co.nz/strings.html
+- Book for regular expressions: https://www.amazon.com/dp/0596528124/ref=cm_sw_su_dp
+- Zillow website for Sacramento: https://www.zillow.com/sacramento-ca/
+- Chrome extension for easy CSS selection: http://selectorgadget.com/
+- CSS selector tutorial: http://flukeout.github.io/
+- `tidyverse`: https://www.tidyverse.org/
+- `rvest`: https://rvest.tidyverse.org/index.html
