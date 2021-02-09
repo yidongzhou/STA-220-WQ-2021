@@ -1,0 +1,130 @@
+---
+title: "Jairo Fúquene-Patiño - Lab 5"
+subtitle: "dplyr"
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+**dplyr**
+
+
+## Load library packages
+
+```{r}
+install.packages("gapminder")
+library(tidyverse)
+library(gapminder)
+```
+
+
+## UN data,  A world of information  
+
+[data.un.org](http://data.un.org).
+
+
+
+## Data
+
+The data are [an excerpt from the Gapminder dataset](https://github.com/jennybc/gapminder)
+
+```{r}
+glimpse(gapminder)
+```
+
+
+## subset data
+
+- select
+- filter
+- arrange
+
+### select
+
+Subset the gapminder tibble (data frame) by columns.  Display only the `year` and the `population` columns.  
+
+```{r}
+gapminder 
+```
+
+### filter
+
+Subset the gapminder tibble, keeping data for the year 1987
+
+```{r}
+gapminder
+```
+
+### arrange
+
+1. sort by populations
+2. sort continent in reverse alphabetical order
+
+    a. subsort in reverse chronological by year
+
+```{r}
+gapminder %>% 
+
+
+gapminder %>% 
+
+```
+
+## Manipulate data
+
+- mutate
+- count 
+- summarize
+- group_by
+
+### mutate
+
+Create a new variables.  Make a new variable called "double_life" by multipling `lifeExp` by 2.
+
+```{r}
+gapminder %>% 
+
+```
+
+### count
+
+How many observations exist for each country within the data set.
+
+```{r}
+gapminder %>% 
+
+```
+
+#### distinct
+
+Sometimes you just want to know the values within a variable...
+
+List the `distinct` values within the `continent` column
+
+```{r}
+gapminder %>% 
+
+```
+
+### summarize
+
+Calculate the total of a single column.  In this case `sum()` all the values in the `pop` column.
+
+```{r}
+gapminder %>% 
+
+```
+
+Of course, it makes no sense to total that column but now you know how to get column totals.  Generally we summarize subtotals using `group_by` along with summarize. group the observations by `year` and create subtotals with the `sum()` function
+
+```{r}
+gapminder %>% 
+
+```
+
+Calculate the total and the mean population by year, per continent
+
+```{r}
+gapminder %>% 
+
+```
+
