@@ -96,12 +96,11 @@ gapminder
 
 ### mutate
 
-Create a new variables.  Make a new variable called "double_life" by multipling `lifeExp` by 2.
+Create a new variable.  Make a new variable called "double_life" by multipling `lifeExp` by 2.
 
 ```{r}
 gapminder %>% 
   mutate(double_life= lifeExp*2)
-
 ```
 
 ### count
@@ -154,7 +153,7 @@ Calculate the total and the mean population by year
 gapminder %>% 
    group_by(year) %>% 
    summarize(total_pop=scales::comma(sum(pop)),mean_pop=mean(pop)) %>% 
-  ggplot(aes(year,mean_pop)) +
+  ggplot(aes(x = year, y = mean_pop)) +
     geom_line() +
    scale_y_continuous(labels = scales::comma)
 ```
