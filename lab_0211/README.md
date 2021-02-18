@@ -1,0 +1,4 @@
+- `stats::filter`
+- `base::subset`
+- COVID 19 data: https://github.com/nytimes/covid-19-data
+- Report: https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html
