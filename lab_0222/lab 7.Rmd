@@ -1,0 +1,119 @@
+---
+title: "STA 220 - Data and Web Technologies for Data Analysis - Lab 7"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+## Load library packages
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(moderndive)# Tidyverse-Friendly Introductory Linear Regression
+library(broom)# Convert Statistical Objects into Tidy Tibbles 
+```
+
+## Preview of a model
+
+`starwars` is a tibble with 87 rows and 14 varibales. See `?dplyr::starwars`
+
+```{r}
+mymodel <- lm(mass ~ height, data = starwars)
+mymodel
+print("XMXMXMXMXMXMXMXMXM")
+summary(mymodel)
+```
+
+
+## Data
+
+data are from the `moderndive` package.  [_Modern dive_](https://moderndive.com/) by Ismay and Kim.  
+
+```{r}
+evals_ch5 <- evals %>% 
+  select(ID, score, bty_avg, age)
+
+evals
+
+evals_ch5
+```
+
+# Summary
+
+```{r}
+evals_ch5 %>% 
+  summary()
+```
+
+```{r}
+skimr::skim(evals_ch5)# Skim a data frame, getting useful summary statistics
+```
+## Correlation
+
+`moderndive::get_correlation`: Get correlation value in a tidy way.
+
+```{r}
+evals_ch5 %>% 
+  get_correlation(score ~ bty_avg)
+```
+
+Get correlation of mass as a prediction of height
+
+```{r}
+starwars %>% 
+  filter(mass < 500) %>% # also filter NA
+  summarise(cor = cor(height, mass))
+```
+
+### visualize correlation
+
+```{r}
+evals_ch5 %>% 
+  ggplot(aes(score, age)) +
+  geom_jitter() +
+  geom_smooth(method = lm)
+```
+
+```{r}
+evals_ch5 %>% 
+  get_correlation(age ~ score)
+```
+
+## summary model 
+
+> For every increase of 1 unit increase in bty_avg, there is an associated increase of, on average, 0.067 units of score. from [_ModenDive_](https://moderndive.com/5-regression.html)
+
+```{r}
+# Fit regression model:
+score_model <- lm(score ~ bty_avg, data = evals_ch5)
+```
+
+
+## Regression Table
+
+
+```{r}
+tidy(score_model)# broom: Tidy summarizes information about the components of a model. 
+get_regression_table(score_model)# moderndive: Output regression table for an lm() regression in "tidy" format. 
+
+```
+
+### Regression Summary
+
+```{r}
+glance(score_model)# broom: Glance accepts a model object and returns a tibble::tibble() with exactly one row of model summaries. 
+get_regression_summaries(score_model)# moderndive: Output scalar summary statistics for an lm() regression in "tidy" format.
+```
+
+
+### Regression points (and residuals)
+
+```{r}
+augment(score_model)# broom: Augment accepts a model object and a dataset and adds information about each observation in the dataset.
+get_regression_points(score_model)# moderndive: Output information on each point/observation used in an lm() regression in "tidy" format.
+```
+
+
